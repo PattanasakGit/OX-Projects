@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: #ffd2da;
+  --just_pink: #ffd2da;
+  --just_yellow: #ffc400;
+  --just_red: #f34954;
+  --just_gray: #333333;
+}
+
 body {
+  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+

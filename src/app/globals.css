@@ -4,7 +4,7 @@
 
 :root {
   --background: #ffa68b;
-  --just_pink: #FF8A65;
+  --just_pink: #ff8a65;
   --just_yellow: #ffc400;
   --just_red: #f34954;
   --just_gray: #333333;
@@ -19,6 +19,28 @@
 
 body {
   background: var(--background);
-  font-family:  sans-serif !important;
+  font-family: sans-serif !important;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 8px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #282828;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9c8787;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--just_red);
+}
+
+.bg-warning {
+  background-color: var(--just_red) !important;
+}

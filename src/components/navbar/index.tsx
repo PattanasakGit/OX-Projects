@@ -9,11 +9,13 @@ import {
 } from "iconsax-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Modal from "../modal";
+import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const { user, error, isLoading } = useUser();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const router = useRouter();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
@@ -35,16 +37,36 @@ const Navbar: React.FC = () => {
             <div className="ml-[3%] mr-[1%] flex justify-between items-center">
               <div className="flex items-center space-x-2">
                 <span
-                  className="text-[#333333] text-[42px] font-bold tracking-wide"
+                  className="text-[#333333] text-[42px] font-bold tracking-wide cursor-pointer"
                   style={{ WebkitTextStroke: "2px #33333350" }}
+                  onClick={() => router.push("/")}
                 >
                   Tic-
                   <span className="text-[#FFC400]">Tac</span>
                   -Toe
                 </span>
-                <div className="hidden text-[#333333] lg:flex space-x-4" style={{marginLeft: "50px"}}>
-                  <span>About Us</span>
-                  <span>Rules</span>
+                <div
+                  className="hidden text-[#333333] lg:flex space-x-4 "
+                  style={{ marginLeft: "50px" }}
+                >
+                  <a
+                    onClick={() => router.push("/")}
+                    className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
+                  >
+                    PlayGame
+                  </a>
+                  <a
+                    onClick={() => router.push("/rules")}
+                    className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
+                  >
+                    Rules
+                  </a>
+                  <a
+                    onClick={() => router.push("/about")}
+                    className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
+                  >
+                    AboutUs
+                  </a>
                 </div>
               </div>
 

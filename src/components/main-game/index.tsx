@@ -14,7 +14,7 @@ const TicTacToeGame = () => {
   const [botWins, setBotWins] = useState(0);
   const { playerData, resetData } = usePlayerStore();
 
-  const checkWinner = (squares) => {
+  const checkWinner = (squares: any[]) => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -38,7 +38,7 @@ const TicTacToeGame = () => {
     return null;
   };
 
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     if (board[index] || !isUserTurn) return;
     const newBoard = [...board];
     newBoard[index] = "X";
@@ -92,7 +92,7 @@ const TicTacToeGame = () => {
           {OrdinalNumber({ number: round })}
         </div>
         <div className="w-full flex items-center justify-center gap-16  mb-4">
-          <div>
+          <div className="hidden lg:block">
             <CardProfile
               imageSrc={playerData?.imageSrc || ""}
               id={playerData?.name || ""}
@@ -100,25 +100,27 @@ const TicTacToeGame = () => {
             />
             <WinRound winRounds={userWins} />
           </div>
-          <div className="grid grid-cols-3 gap-2 bg-white p-2 rounded-lg">
-            {board.map((square, index) => (
-              <motion.button
-                key={index}
-                className={`w-[120px] h-[120px] ${
-                  square === "X"
-                    ? "bg-[--just_yellow]"
-                    : square === "O"
-                    ? "bg-[--just_red]"
-                    : "bg-[--just_pink]"
-                } rounded-lg flex items-center justify-center text-4xl font-bold`}
-                onClick={() => handleClick(index)}
-                whileTap={{ scale: 0.95 }}
-              >
-                {square}
-              </motion.button>
-            ))}
+          <div className="border-[6px] border-dashed border-just_pink rounded-3xl">
+            <div className="grid grid-cols-3 gap-2 bg-white p-2 rounded-3xl">
+              {board.map((square, index) => (
+                <motion.button
+                  key={index}
+                  className={`w-[120px] h-[120px] ${
+                    square === "X"
+                      ? "bg-[--just_yellow]"
+                      : square === "O"
+                      ? "bg-[--just_red]"
+                      : "bg-[--just_pink]"
+                  } rounded-2xl flex items-center justify-center text-4xl font-bold`}
+                  onClick={() => handleClick(index)}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {square}
+                </motion.button>
+              ))}
+            </div>
           </div>
-          <div>
+          <div className="hidden lg:block">
             <CardProfile
               imageSrc={"/images/bot.webp"}
               id={"Bot Deng"}
@@ -127,12 +129,32 @@ const TicTacToeGame = () => {
             <WinRound winRounds={botWins} />
           </div>
         </div>
+
         <motion.div
-          className="bg-[--just_yellow] text-[--just_gray] px-6 py-2 rounded-full font-semibold"
+          className="bg-[--just_yellow] text-[--just_gray] px-12 py-4 rounded-full font-semibold"
           animate={{ opacity: isUserTurn ? 1 : 0.5 }}
         >
           {isUserTurn ? "YOUR TURN" : "BOT'S TURN"}
         </motion.div>
+
+        <div className="flex flex-col justify-center items-center lg:hidden my-4  w-[90%] p-16 rounded-3xl border-4 border-dashed">
+          <div className="mt-24">
+            <CardProfile
+              imageSrc={playerData?.imageSrc || ""}
+              id={playerData?.name || ""}
+              ox={playerData?.ox || ""}
+            />
+            <WinRound winRounds={userWins} />
+          </div>
+          <div className="mt-24">
+            <CardProfile
+              imageSrc={"/images/bot.webp"}
+              id={"Bot Deng"}
+              ox={playerData?.ox === "X" ? "O" : "X"}
+            />
+            <WinRound winRounds={botWins} />
+          </div>
+        </div>
       </div>
     </div>
   );

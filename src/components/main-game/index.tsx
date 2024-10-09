@@ -41,7 +41,7 @@ const TicTacToeGame = () => {
   const handleClick = (index: number) => {
     if (board[index] || !isUserTurn) return;
     const newBoard = [...board];
-    newBoard[index] = "X";
+    newBoard[index] = playerData?.ox || "X";
     setBoard(newBoard);
     setIsUserTurn(false);
   };
@@ -57,7 +57,7 @@ const TicTacToeGame = () => {
           const randomIndex =
             emptySquares[Math.floor(Math.random() * emptySquares.length)];
           const newBoard = [...board];
-          newBoard[randomIndex] = "O";
+          newBoard[randomIndex] = playerData?.ox === "O" ? "X" : "O";
           setBoard(newBoard);
           setIsUserTurn(true);
         }

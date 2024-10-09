@@ -1,46 +1,52 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
-import "./style.css";
+import Image from "next/image";
+import Lottie from "lottie-react";
+import { motion } from "framer-motion";
+import tic_tac_toe_animation from "../../../public/lottiefiles/tic_tac_toe_animetion.json";
 
 export default function LoginPage() {
   return (
-    <div className="login-container">
-      <div className="tic-tac-toe-section">
-        <h1 className="tic-tac-toe-title">
-          Tic-<span>tac-</span>toe
-        </h1>
-        <div className="tic-tac-toe-board">
-          <div className="row">
-            <div className="cell">O</div>
-            <div className="cell">O</div>
-            <div className="cell">X</div>
-          </div>
-          <div className="row">
-            <div className="cell">X</div>
-            <div className="cell">X</div>
-            <div className="cell">O</div>
-          </div>
-          <div className="row">
-            <div className="cell"></div>
-            <div className="cell"></div>
-            <div className="cell"></div>
-          </div>
-        </div>
-      </div>
-
-      <div className="login-section">
-        <div className="user-thumbnails">
-          <Image src="/user1.png" alt="User 1" width={100} height={100} />
-          <Image src="/user2.png" alt="User 2" width={100} height={100} />
-          <Image src="/user3.png" alt="User 3" width={100} height={100} />
-          <Image src="/user4.png" alt="User 4" width={100} height={100} />
+    <div className="w-full h-screen flex items-center justify-center bg-[#ffa68b] bg-grid-pattern p-4 lg:p-0">
+      <div className="w-full lg:w-4/5 h-full lg:h-4/5 grid grid-cols-1 lg:grid-cols-2 bg-white rounded-3xl shadow-xl">
+        <div className="hidden lg:flex flex-col items-center justify-center bg-[#ff8a65] rounded-t-3xl lg:rounded-l-3xl lg:rounded-tr-none ">
+          <motion.div
+            className="mt-8"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <Lottie animationData={tic_tac_toe_animation} loop={true} />
+          </motion.div>
         </div>
 
-        <button className="login-button" onClick={() => window.location.href = "/api/auth/login"}>
-          LOGIN
-        </button>
+        <div className="p-4 bg-white rounded-b-3xl lg:rounded-r-3xl lg:rounded-bl-none">
+          <div className="flex flex-col items-center justify-start p-8  border-dashed border-[4px] rounded-2xl h-full">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <Image
+                height={800}
+                width={800}
+                src="/images/logo_bg.webp"
+                alt="logo"
+                className="rounded-3xl"
+              />
+            </motion.div>
+
+            <motion.button
+              className="mt-24 px-24 py-6 bg-[#f34954] text-white rounded-full text-[36px] font-semibold tracking-wide hover:bg-[#ff8a65] transition-all duration-300 ease-in-out"
+              onClick={() => (window.location.href = "/api/auth/login")}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              LOGIN
+            </motion.button>
+          </div>
+        </div>
       </div>
     </div>
   );

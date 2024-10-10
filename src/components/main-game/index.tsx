@@ -160,7 +160,7 @@ const TicTacToeGame = () => {
           </div>
           <div className="hidden lg:block">
             <CardProfile
-              imageSrc={"/images/bot.webp"}
+              imageSrc={userWinStreak === 3 ? "/images/bot2.webp" : "/images/bot.webp"}
               id={"Bot Deng"}
               ox={playerData?.ox === "X" ? "O" : "X"}
             />

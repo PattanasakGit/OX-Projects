@@ -10,14 +10,13 @@ const SelectOX = () => {
   const { user, error, isLoading } = useUser();
   const { player, setPlayer, playerData, setPlayerData } = usePlayerStore();
 
+  if (isLoading) return <div>.</div>;
+  if (error) return <div>{error.message}</div>;
+
   useEffect(() => {
     setPlayer(null);
     setPlayerData(null);
   }, []);
-
-  useEffect(() => {
-    console.log("player ==>", player);
-  }, [player]);
 
   useEffect(() => {
     const img = user?.picture;

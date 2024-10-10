@@ -3,7 +3,7 @@ import SoundToggleButton from "@/components/button-music";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "@/components/modal";
 import {
   HambergerMenu,
@@ -11,6 +11,7 @@ import {
   Maximize4,
   MinusSquare,
 } from "iconsax-react";
+import { useSound } from "@/app/soundProvider";
 
 const Navbar: React.FC = () => {
   const { user, error, isLoading } = useUser();
@@ -18,7 +19,7 @@ const Navbar: React.FC = () => {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const router = useRouter();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>.</div>;
   if (error) return <div>{error.message}</div>;
 
   const toggleModal = () => setIsModalOpen(!isModalOpen);

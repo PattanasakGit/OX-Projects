@@ -3,11 +3,12 @@ import { motion } from "framer-motion";
 import OrdinalNumber from "./roundDisplay";
 import usePlayerStore from "@/store/player";
 import WinRound from "@/components/win-round";
-import { ArrowCircleLeft } from "iconsax-react";
+import { ArrowCircleLeft, ArrowRotateRight } from "iconsax-react";
 import WinStreakMeter from "@/components/streak";
 import React, { useState, useEffect } from "react";
 import CardProfile from "@/components/card-profile";
 import party01 from "../../../public/lottiefiles/party01.json";
+import party02 from "../../../public/lottiefiles/party02.json";
 
 const TicTacToeGame = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -97,8 +98,13 @@ const TicTacToeGame = () => {
           setUserScore(userScore - 1);
           setUserWinStreak(0);
         }
+
+        // if (gameWinner === null) {
+        //   setUserWinStreak(0);
+        // }
+
         setWinner(null);
-      }, 2000);
+      }, 3000);
     }
   }, [board]);
 
@@ -196,8 +202,12 @@ const TicTacToeGame = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
+            <div className="absolute inset-0 z-0 w-[120%] left-[-10%] lg:left-[25%] lg:w-1/2">
+              <Lottie animationData={party02} loop={false} />
+            </div>
+
             <motion.div
-              className="bg-white p-8 rounded-3xl shadow-lg"
+              className="relative z-10 bg-white p-8 rounded-3xl shadow-lg"
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
             >
@@ -212,7 +222,7 @@ const TicTacToeGame = () => {
                     ? playerData?.name || "You"
                     : "Bot Deng"
                 }
-                ox={winner}
+                ox={winner ?? ""}
               />
               <h2 className="text-center mt-4 text-3xl font-bold">Winner!!!</h2>
             </motion.div>

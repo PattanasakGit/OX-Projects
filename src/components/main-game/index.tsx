@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-import { ArrowCircleLeft, User } from "iconsax-react";
-import CardProfile from "@/components/card-profile";
 import OrdinalNumber from "./roundDisplay";
 import usePlayerStore from "@/store/player";
-import WinRound from "../win-round";
+import WinRound from "@/components/win-round";
+import { ArrowCircleLeft } from "iconsax-react";
+import WinStreakMeter from "@/components/streak";
+import React, { useState, useEffect } from "react";
+import CardProfile from "@/components/card-profile";
+import party01 from "../../../public/lottiefiles/party01.json";
 
 const TicTacToeGame = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -14,6 +17,9 @@ const TicTacToeGame = () => {
   const [botWins, setBotWins] = useState(0);
   const [winner, setWinner] = useState<string | null>(null);
   const { playerData, resetData } = usePlayerStore();
+  const [userScore, setUserScore] = useState(0);
+  const [userWinStreak, setUserWinStreak] = useState(0);
+  const [userGetsBonus, setUserGetsBonus] = useState(false);
 
   const checkWinner = (squares: any[]) => {
     const lines = [
@@ -74,12 +80,35 @@ const TicTacToeGame = () => {
       setTimeout(() => {
         setBoard(Array(9).fill(null));
         setRound(round + 1);
-        if (gameWinner === "X") setUserWins(userWins + 1);
-        if (gameWinner === "O") setBotWins(botWins + 1);
+
+        if (gameWinner === (playerData?.ox || "X")) {
+          setUserWins(userWins + 1);
+          setUserWinStreak(userWinStreak + 1);
+
+          setUserScore(userScore + 1);
+
+          if (userWinStreak + 1 === 3) {
+            setUserGetsBonus(true);
+            setUserScore(userScore + 2);
+            setUserWinStreak(0);
+          }
+        } else if (gameWinner === (playerData?.ox === "O" ? "X" : "O")) {
+          setBotWins(botWins + 1);
+          setUserScore(userScore - 1);
+          setUserWinStreak(0);
+        }
         setWinner(null);
-      }, 400000);
+      }, 2000);
     }
   }, [board]);
+
+  useEffect(() => {
+    if (userGetsBonus) {
+      setTimeout(() => {
+        setUserGetsBonus(false);
+      }, 4000);
+    }
+  }, [userGetsBonus]);
 
   return (
     <div>
@@ -100,7 +129,8 @@ const TicTacToeGame = () => {
               id={playerData?.name || ""}
               ox={playerData?.ox || ""}
             />
-            <WinRound winRounds={userWins} />
+            <WinRound winRounds={userScore} />
+            <WinStreakMeter maxValue={3} currentValue={userWinStreak} />
           </div>
           <div className="border-[6px] border-dashed border-just_pink rounded-3xl">
             <div className="grid grid-cols-3 gap-2 bg-white p-2 rounded-3xl">
@@ -147,6 +177,7 @@ const TicTacToeGame = () => {
               ox={playerData?.ox || ""}
             />
             <WinRound winRounds={userWins} />
+            <WinStreakMeter maxValue={3} currentValue={userWinStreak} />
           </div>
           <div className="mt-24">
             <CardProfile
@@ -160,7 +191,7 @@ const TicTacToeGame = () => {
 
         {winner && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
+            className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm  z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -171,11 +202,44 @@ const TicTacToeGame = () => {
               animate={{ scale: 1 }}
             >
               <CardProfile
-                imageSrc={winner === playerData?.ox ? playerData?.imageSrc || "" : "/images/bot.webp"}
-                id={winner === playerData?.ox ? playerData?.name || "You" : "Bot Deng"}
+                imageSrc={
+                  winner === playerData?.ox
+                    ? playerData?.imageSrc || ""
+                    : "/images/bot.webp"
+                }
+                id={
+                  winner === playerData?.ox
+                    ? playerData?.name || "You"
+                    : "Bot Deng"
+                }
                 ox={winner}
               />
-              <h2 className="text-center mt-4 text-3xl font-bold"> Winner!!!</h2>
+              <h2 className="text-center mt-4 text-3xl font-bold">Winner!!!</h2>
+            </motion.div>
+          </motion.div>
+        )}
+        {userGetsBonus && (
+          <motion.div
+            className="fixed inset-x-0 bottom-0 flex flex-col items-center justify-center backdrop-blur-sm z-50 w-full h-full"
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -300, opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          >
+            <div className="absolute inset-0 z-0 w-[120%] left-[-10%] lg:left-[25%] lg:w-1/2">
+              <Lottie animationData={party01} loop={true} />
+            </div>
+
+            <motion.div
+              className="relative z-10 bg-gradient-to-r from-just_pink via-just_yellow to-just_red p-8 rounded-full shadow-2xl text-center flex flex-col items-center justify-center border-[6px] border-just_yellow"
+              initial={{ scale: 0.5 }}
+              animate={{ scale: 1.1 }}
+              exit={{ scale: 0.5 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <h2 className="text-4xl font-bold text-white">
+                🎉 You Got A Bonus! +1 🎉
+              </h2>
             </motion.div>
           </motion.div>
         )}

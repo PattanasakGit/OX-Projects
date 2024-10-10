@@ -2,10 +2,11 @@
 
 import React from "react";
 import Image from "next/image";
-import Lottie from "lottie-react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import tic_tac_toe_animation from "../../../public/lottiefiles/tic_tac_toe_animetion.json";
 import { useUser } from "@auth0/nextjs-auth0/client";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+import tic_tac_toe_animation from "../../../public/lottiefiles/tic_tac_toe_animetion.json";
 
 export default function LoginPage() {
   const { user, error, isLoading } = useUser();

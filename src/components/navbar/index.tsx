@@ -1,15 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import Modal from "../modal";
 import {
   HambergerMenu,
   LogoutCurve,
   Maximize4,
   MinusSquare,
 } from "iconsax-react";
-import { motion, AnimatePresence } from "framer-motion";
-import Modal from "../modal";
-import { useRouter } from "next/navigation";
 
 const Navbar: React.FC = () => {
   const { user, error, isLoading } = useUser();
@@ -49,24 +49,21 @@ const Navbar: React.FC = () => {
                   className="hidden text-[#333333] lg:flex space-x-4 "
                   style={{ marginLeft: "50px" }}
                 >
-                  <a
-                    onClick={() => router.push("/")}
-                    className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
-                  >
-                    PlayGame
-                  </a>
-                  <a
-                    onClick={() => router.push("/rules")}
-                    className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
-                  >
-                    Rules
-                  </a>
-                  <a
-                    onClick={() => router.push("/about")}
-                    className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
-                  >
-                    AboutUs
-                  </a>
+                  {["PlayGame", "Rules", "AboutUs"].map((item, index) => (
+                    <motion.a
+                      key={item}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() =>
+                        router.push(
+                          item === "PlayGame" ? "/" : `/${item.toLowerCase()}`
+                        )
+                      }
+                      className="cursor-pointer hover:underline hover:decoration-just_red hover:decoration-4"
+                    >
+                      {item}
+                    </motion.a>
+                  ))}
                 </div>
               </div>
 

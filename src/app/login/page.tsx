@@ -5,8 +5,14 @@ import Image from "next/image";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 import tic_tac_toe_animation from "../../../public/lottiefiles/tic_tac_toe_animetion.json";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function LoginPage() {
+  const { user, error, isLoading } = useUser();
+  
+  if ((user && !isLoading) ) {
+    window.location.href = "/";
+  }
   return (
     <div className="w-full h-screen flex items-center justify-center bg-[#ffa68b] bg-grid-pattern p-4 lg:p-0">
       <div className="w-full lg:w-4/5 h-full lg:h-4/5 grid grid-cols-1 lg:grid-cols-2 bg-white rounded-3xl shadow-xl">

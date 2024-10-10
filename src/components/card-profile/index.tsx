@@ -1,4 +1,5 @@
-import { div } from "framer-motion/client";
+"use client";
+
 import React, { useState } from "react";
 
 interface CardProps {
@@ -7,9 +8,10 @@ interface CardProps {
   ox: string;
 }
 
+
 const CardProfile: React.FC<CardProps> = ({ imageSrc, id, ox }) => {
   const [imgSrc, setImgSrc] = useState(imageSrc || "/images/bot.webp");
-  const displayName = id.includes('@') ? id.split('@')[0] : id;
+  const displayName = id?.includes('@') ? id?.split('@')[0] : id;
 
   return (
     <div className="relative w-[280px] flex flex-col items-center px-4 pt-16 pb-6 bg-white rounded-[52px] shadow-2xl border-4 border-just_pink cursor-default">

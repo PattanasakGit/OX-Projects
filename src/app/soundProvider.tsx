@@ -1,5 +1,12 @@
-"use client"
-import React, { createContext, useContext, useState, useRef, useEffect } from "react";
+"use client";
+
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useEffect,
+} from "react";
 
 interface SoundContextType {
   isMuted: boolean;
@@ -10,7 +17,9 @@ const SoundContext = createContext<SoundContextType | undefined>(undefined);
 
 export const useSound = () => useContext(SoundContext);
 
-export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SoundProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [isMuted, setIsMuted] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 

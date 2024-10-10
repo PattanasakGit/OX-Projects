@@ -1,9 +1,10 @@
 "use client";
+
 import SoundToggleButton from "@/components/button-music";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Modal from "@/components/modal";
 import {
   HambergerMenu,
@@ -11,7 +12,6 @@ import {
   Maximize4,
   MinusSquare,
 } from "iconsax-react";
-import { useSound } from "@/app/soundProvider";
 
 const Navbar: React.FC = () => {
   const { user, error, isLoading } = useUser();

@@ -1,14 +1,17 @@
-import Lottie from "lottie-react";
+"use client";
+
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import OrdinalNumber from "./roundDisplay";
 import usePlayerStore from "@/store/player";
 import WinRound from "@/components/win-round";
-import { ArrowCircleLeft, ArrowRotateRight } from "iconsax-react";
+import { ArrowCircleLeft } from "iconsax-react";
 import WinStreakMeter from "@/components/streak";
 import React, { useState, useEffect } from "react";
 import CardProfile from "@/components/card-profile";
 import party01 from "../../../public/lottiefiles/party01.json";
 import party02 from "../../../public/lottiefiles/party02.json";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 const TicTacToeGame = () => {
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -21,6 +24,7 @@ const TicTacToeGame = () => {
   const [userScore, setUserScore] = useState(0);
   const [userWinStreak, setUserWinStreak] = useState(0);
   const [userGetsBonus, setUserGetsBonus] = useState(false);
+  
 
   const checkWinner = (squares: any[]) => {
     const lines = [

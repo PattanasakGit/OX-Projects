@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import ReactDOM from "react-dom";
 import { motion } from "framer-motion";

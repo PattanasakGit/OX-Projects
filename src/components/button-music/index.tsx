@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { VolumeHigh, VolumeMute } from "iconsax-react";
 import { motion } from "framer-motion";

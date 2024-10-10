@@ -10,14 +10,18 @@ export default function Home() {
   const { playerData } = usePlayerStore();
 
   if (error) return <div>{error.message}</div>;
-  if (!user && !isLoading) {
+  if ((!user && !isLoading) ) {
     window.location.href = "/login";
   }
 
   return (
-    <div className="h-[calc(100vh-80px)] min-h-screen md:min-h-[80vh] w-full">
-      {!isLoading && !playerData && <SelectOX />}
-      {playerData && <TicTacToeGame />}
-    </div>
+    <>
+      {user && (
+        <div className="h-[calc(100vh-80px)] min-h-screen md:min-h-[80vh] w-full">
+          {!isLoading && !playerData && <SelectOX />}
+          {playerData && <TicTacToeGame />}
+        </div>
+      )}
+    </>
   );
 }

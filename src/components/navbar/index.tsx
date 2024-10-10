@@ -1,9 +1,10 @@
 "use client";
+import SoundToggleButton from "@/components/button-music";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import Modal from "../modal";
+import Modal from "@/components/modal";
 import {
   HambergerMenu,
   LogoutCurve,
@@ -68,6 +69,8 @@ const Navbar: React.FC = () => {
               </div>
 
               <div className="hidden lg:flex items-center space-x-4">
+                <SoundToggleButton />
+
                 <div className="flex items-center space-x-3 bg-[#FFF3E6] p-2 px-3 rounded-full shadow-inner">
                   <img
                     src={user.picture || ""}
@@ -147,12 +150,16 @@ const Navbar: React.FC = () => {
                   </a>
                 ))}
 
+                <div className="py-4">
+                  <SoundToggleButton />
+                </div>
+
                 <button
                   onClick={() => {
                     toggleModal();
                     window.location.href = "/api/auth/logout";
                   }}
-                  className="bg-[#FF8A65] text-white px-5 py-2 rounded-full shadow-md hover:bg-[#FFC400] hover:text-[#333333] transition duration-300 flex items-center space-x-2"
+                  className="bg-[#FF8A65] text-white px-8 py-2 rounded-full shadow-md hover:bg-[#FFC400] hover:text-[#333333] transition duration-300 flex items-center space-x-2"
                 >
                   <LogoutCurve size="24" color="#FFFFFF" />
                   <span>Logout</span>

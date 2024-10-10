@@ -12,6 +12,7 @@ const TicTacToeGame = () => {
   const [round, setRound] = useState(1);
   const [userWins, setUserWins] = useState(0);
   const [botWins, setBotWins] = useState(0);
+  const [winner, setWinner] = useState<string | null>(null);
   const { playerData, resetData } = usePlayerStore();
 
   const checkWinner = (squares: any[]) => {
@@ -39,7 +40,7 @@ const TicTacToeGame = () => {
   };
 
   const handleClick = (index: number) => {
-    if (board[index] || !isUserTurn) return;
+    if (board[index] || !isUserTurn || winner) return;
     const newBoard = [...board];
     newBoard[index] = playerData?.ox || "X";
     setBoard(newBoard);
@@ -47,7 +48,7 @@ const TicTacToeGame = () => {
   };
 
   useEffect(() => {
-    if (!isUserTurn) {
+    if (!isUserTurn && !winner) {
       const timer = setTimeout(() => {
         const emptySquares = board.reduce(
           (acc, val, idx) => (val === null ? [...acc, idx] : acc),
@@ -64,18 +65,19 @@ const TicTacToeGame = () => {
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, [isUserTurn, board]);
+  }, [isUserTurn, board, winner]);
 
   useEffect(() => {
-    const winner = checkWinner(board);
-    if (winner || board.every((square) => square !== null)) {
-      // Handle game end
+    const gameWinner = checkWinner(board);
+    if (gameWinner || board.every((square) => square !== null)) {
+      setWinner(gameWinner);
       setTimeout(() => {
         setBoard(Array(9).fill(null));
         setRound(round + 1);
-        if (winner === "X") setUserWins(userWins + 1);
-        if (winner === "O") setBotWins(botWins + 1);
-      }, 1500);
+        if (gameWinner === "X") setUserWins(userWins + 1);
+        if (gameWinner === "O") setBotWins(botWins + 1);
+        setWinner(null);
+      }, 400000);
     }
   }, [board]);
 
@@ -91,7 +93,7 @@ const TicTacToeGame = () => {
         <div className="text-xl font-semibold mb-4 rounded-full p-4 border-[5px] border-dashed bg-just_yellow">
           {OrdinalNumber({ number: round })}
         </div>
-        <div className="w-full flex items-center justify-center gap-16  mb-4">
+        <div className="w-full flex items-center justify-center gap-16 mb-4">
           <div className="hidden lg:block">
             <CardProfile
               imageSrc={playerData?.imageSrc || ""}
@@ -137,7 +139,7 @@ const TicTacToeGame = () => {
           {isUserTurn ? "YOUR TURN" : "BOT'S TURN"}
         </motion.div>
 
-        <div className="flex flex-col justify-center items-center lg:hidden my-4  w-[90%] p-16 rounded-3xl border-4 border-dashed">
+        <div className="flex flex-col justify-center items-center lg:hidden my-4 w-[90%] p-16 rounded-3xl border-4 border-dashed">
           <div className="mt-24">
             <CardProfile
               imageSrc={playerData?.imageSrc || ""}
@@ -155,6 +157,28 @@ const TicTacToeGame = () => {
             <WinRound winRounds={botWins} />
           </div>
         </div>
+
+        {winner && (
+          <motion.div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-8 rounded-3xl shadow-lg"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+            >
+              <CardProfile
+                imageSrc={winner === playerData?.ox ? playerData?.imageSrc || "" : "/images/bot.webp"}
+                id={winner === playerData?.ox ? playerData?.name || "You" : "Bot Deng"}
+                ox={winner}
+              />
+              <h2 className="text-center mt-4 text-3xl font-bold"> Winner!!!</h2>
+            </motion.div>
+          </motion.div>
+        )}
       </div>
     </div>
   );

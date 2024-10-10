@@ -1,7 +1,7 @@
 "use client";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import SelectOX from "@/components/views/selectOX";
+import SelectOX from "@/components/selectOX";
 import TicTacToeGame from "@/components/main-game";
 import usePlayerStore from "@/store/player";
 

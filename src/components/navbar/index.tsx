@@ -104,8 +104,15 @@ const Navbar: React.FC = () => {
 
               <div className="flex items-center space-x-2 lg:hidden">
                 <button
+                  onClick={toggleFullscreen}
+                  className="text-[#333333] p-2 rounded-full bg-[#ffffff50] hover:bg-[#FFF3E6] transition "
+                  style={{ marginLeft: "80px" }}
+                >
+                  <Maximize4 size="20" color="#FF8A65" />
+                </button>
+                <button
                   onClick={toggleModal}
-                  className=" text-[#333333] p-2 rounded-md hover:bg-[#FFF3E6] transition"
+                  className=" text-[#333333] p-2 rounded-full bg-[#ffffff50] hover:bg-[#FFF3E6] transition"
                 >
                   <HambergerMenu size="24" color="#FF8A65" />
                 </button>
@@ -127,8 +134,25 @@ const Navbar: React.FC = () => {
                     <p className="text-[#666666] text-[14px]">{user.email}</p>
                   </div>
                 </div>
+
+                {["PlayGame", "Rules", "AboutUs"].map((item, index) => (
+                  <a
+                    key={item}
+                    onClick={() => {
+                      toggleModal();
+                      router.push(
+                        item === "PlayGame" ? "/" : `/${item.toLowerCase()}`
+                      );
+                    }}
+                    className="cursor-pointer py-2 text-lg font-semibold text-[#333333] bg-orange-300 h-full w-full flex items-center justify-center rounded-xl hover:text-[#FF4500] transition-colors duration-300 hover:underline hover:decoration-[#FF4500] hover:decoration-4"
+                  >
+                    {item}
+                  </a>
+                ))}
+
                 <button
                   onClick={() => {
+                    toggleModal();
                     window.location.href = "/api/auth/logout";
                   }}
                   className="bg-[#FF8A65] text-white px-5 py-2 rounded-full shadow-md hover:bg-[#FFC400] hover:text-[#333333] transition duration-300 flex items-center space-x-2"

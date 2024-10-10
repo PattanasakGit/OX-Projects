@@ -159,11 +159,21 @@ const TicTacToeGame = () => {
             </div>
           </div>
           <div className="hidden lg:block">
-            <CardProfile
-              imageSrc={userWinStreak === 3 ? "/images/bot2.webp" : "/images/bot.webp"}
-              id={"Bot Deng"}
-              ox={playerData?.ox === "X" ? "O" : "X"}
-            />
+            {userWinStreak === 2 && (
+              <CardProfile
+                imageSrc={"/images/bot2.webp"}
+                id={"Bot Deng"}
+                ox={playerData?.ox === "X" ? "O" : "X"}
+              />
+            )}
+            {userWinStreak !== 2 && (
+              <CardProfile
+                imageSrc={"/images/bot.webp"}
+                id={"Bot Deng"}
+                ox={playerData?.ox === "X" ? "O" : "X"}
+              />
+            )}
+
             <WinRound winRounds={botWins} />
           </div>
         </div>
@@ -210,7 +220,7 @@ const TicTacToeGame = () => {
             </div>
 
             <motion.div
-              className="relative z-10 bg-white p-8 rounded-3xl shadow-lg"
+              className="relative z-10 bg-white p-8 rounded-[3rem] shadow-lg"
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
             >

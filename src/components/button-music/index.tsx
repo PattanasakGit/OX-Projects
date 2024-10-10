@@ -1,50 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { VolumeHigh, VolumeMute } from "iconsax-react";
 import { motion } from "framer-motion";
+import { useSound } from "@/app/soundProvider";
 
 const SoundToggleButton: React.FC = () => {
-  const [isMuted, setIsMuted] = useState(true);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    const savedMuteState = localStorage.getItem("isMuted");
-    const initialMuteState = savedMuteState
-      ? JSON.parse(savedMuteState)
-      : false;
-
-    setIsMuted(initialMuteState);
-    audioRef.current = new Audio("/sounds/musicBackground.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-
-    if (!initialMuteState) {
-      audioRef.current.play();
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
-
-  const toggleSound = () => {
-    setIsMuted((prevMuted) => {
-      const newMutedState = !prevMuted;
-
-      if (audioRef.current) {
-        if (newMutedState) {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-        } else {
-          audioRef.current.play();
-        }
-      }
-      localStorage.setItem("isMuted", JSON.stringify(newMutedState));
-      return newMutedState;
-    });
-  };
+  const { isMuted, toggleSound } = useSound() ?? {};
 
   return (
     <div className="relative flex items-center justify-center">

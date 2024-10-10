@@ -19,7 +19,7 @@ const CardProfile: React.FC<CardProps> = ({ imageSrc, id, ox }) => {
             src={imgSrc}
             alt=""
             onError={() => setImgSrc("/images/profile.webp")}
-            className="w-full h-full rounded-full border-[8px] object-cover shadow-3xl"
+            className="w-full h-full rounded-full border-[8px] object-cover shadow-3xl bg-white"
           />
           <div className="absolute inset-0 rounded-full border-4 border-just_pink"></div>
         </div>

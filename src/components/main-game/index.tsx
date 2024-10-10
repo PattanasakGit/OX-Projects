@@ -148,7 +148,7 @@ const TicTacToeGame = () => {
                       ? "bg-[--just_yellow]"
                       : square === "O"
                       ? "bg-[--just_red]"
-                      : "bg-[--just_pink]"
+                      : "bg-[--just_pink] hover:scale-90"
                   } rounded-2xl flex items-center justify-center text-4xl font-bold`}
                   onClick={() => handleClick(index)}
                   whileTap={{ scale: 0.95 }}
@@ -185,6 +185,9 @@ const TicTacToeGame = () => {
             <WinRound winRounds={userWins} />
             <WinStreakMeter maxValue={3} currentValue={userWinStreak} />
           </div>
+
+          <span className="text-4xl font-bold text-white mt-[50px]">VS</span>
+
           <div className="mt-24">
             <CardProfile
               imageSrc={"/images/bot.webp"}

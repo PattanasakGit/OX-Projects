@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
             <div className="ml-[3%] mr-[1%] flex justify-between items-center">
               <div className="flex items-center space-x-2">
                 <span
-                  className="text-[#333333] text-[42px] font-bold tracking-wide cursor-pointer"
+                  className="text-[#333333] text-[30px] md:text-[42px] font-bold tracking-wide cursor-pointer"
                   style={{ WebkitTextStroke: "2px #33333350" }}
                   onClick={() => router.push("/")}
                 >
